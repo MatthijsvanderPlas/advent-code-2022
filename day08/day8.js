@@ -5,8 +5,6 @@ const ROWS = temp.length
 const gridArray = temp.map(row => row.split(''))
 const COLS = gridArray[0].length
 
-// console.log('Rows:', ROWS, '\nCols:', COLS)
-
 let result = []
 
 function checkLeft(x, y) {
@@ -78,3 +76,77 @@ for (let y = 0; y < ROWS; y++){
 } 
 
 console.log(result.map(item => item.visible).filter(val => val === true).length)
+
+function visLeft(x, y) {
+    if(x === 0) return 1
+    const row = gridArray[y]
+    let vis = 0
+    for (let i = (x - 1); i >= 0; i--){
+        if (row[x] > row[i]) {
+            vis++
+        } else {
+            vis++
+            return vis
+        }
+    }
+    return vis
+}
+
+function visRight(x, y) { 
+    if(x === COLS-1) return 1
+    const row = gridArray[y]
+    let vis = 0
+    for (let i = (x + 1); i < COLS; i++){
+        if (row[x] > row[i]) {
+            vis++ 
+        } else {
+            vis++ 
+            return vis
+        }
+    }
+    return vis
+}
+
+function visTop(x, y) {
+    if(y === 0) return 1
+    let vis = 0
+    for (let i = (y-1); i >= 0; i--){
+        if (gridArray[y][x] > gridArray[i][x]) {
+            vis++
+        } else {
+            vis++
+            return vis
+        }
+    }
+    return vis
+}
+ 
+function visBottom(x, y) {
+    if(y === ROWS-1) return 1
+    let vis = 0
+    for (let i = (y+1); i < COLS; i++) {
+        if (gridArray[y][x] > gridArray[i][x]) {
+            vis++
+        } else {
+            vis++ 
+            return vis
+        }
+    }
+    return vis
+}
+
+const result2 = []
+
+for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+        const left = visLeft(x,y)
+        const right = visRight(x,y)
+        const top = visTop(x,y)
+        const bottom = visBottom(x,y)
+
+        let total = left * right * top * bottom
+        result2.push({coord: [x,y], score: total})
+    }
+}
+
+console.log(Math.max(...result2.map(x => x.score)))
