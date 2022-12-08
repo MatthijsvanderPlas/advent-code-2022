@@ -35,10 +35,8 @@ commandArray.map((item, index) => {
             result.push({dir: child, val: 0, par: currentDirectory})
         }
     } else if (item === '$ cd ..') {
-        
         const newParent = result.filter(item => item.dir === currentDirectory).map(item => item.par)
         currentDirectory = newParent[0]
-
     } else if (/(\$ cd )[a-z]/.test(item)) {
         if (currentDirectory === '/') {
             currentDirectory += item.slice(5) 
@@ -60,8 +58,7 @@ commandArray.map((item, index) => {
 
 const TOTAL = 70000000
 const NEEDED = 30000000
-// 70000000
-// 42805968
+
 const used = result[0].val
 
 const minDeleteSize = used - (TOTAL - NEEDED)
